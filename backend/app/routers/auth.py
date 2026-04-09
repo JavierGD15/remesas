@@ -13,7 +13,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
-) -> schemas.Token:
+):
     """
     Autentica al usuario y devuelve un JWT Bearer.
     El mensaje de error es genérico intencionalmente (no revela si el usuario existe).
@@ -25,7 +25,7 @@ def login(
     )
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Usuario o contraseña incorrectos",
             headers={"WWW-Authenticate": "Bearer"},
         )

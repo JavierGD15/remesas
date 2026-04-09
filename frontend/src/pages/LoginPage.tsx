@@ -79,7 +79,7 @@ export default function LoginPage() {
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         const status = err.response?.status
-        if (status === 401) {
+        if (status === 400) {
           setApiError('Usuario o contraseña incorrectos')
         } else if (status === 422) {
           setApiError('Datos de acceso inválidos')

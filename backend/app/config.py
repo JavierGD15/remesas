@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # ── App ───────────────────────────────────────────────────
     APP_ENV: str = "development"
     DEBUG: bool = False
-
+    allowed_origins: str = "http://localhost:5173"
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 

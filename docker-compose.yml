@@ -1,5 +1,3 @@
-version: "3.9"
-
 # =============================================================
 # DON ALEX — Docker Compose
 # Zero Trust: nunca hardcodear credenciales aquí.
@@ -37,9 +35,10 @@ services:
     container_name: don_alex_backend
     restart: unless-stopped
     env_file:
+      # DATABASE_URL se lee directamente desde backend/.env con el
+      # password percent-encoded. No se construye aquí para evitar
+      # que caracteres especiales (@, $) rompan el parsing de la URL.
       - ./backend/.env
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     volumes:
