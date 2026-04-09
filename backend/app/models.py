@@ -20,6 +20,11 @@ class UserRole(str, enum.Enum):
     RECEIVER = "RECEIVER"
 
 
+class TransactionType(str, enum.Enum):
+    SEND = "SEND"       # El SENDER inicia: registra USD, espera confirmación del RECEIVER
+    REQUEST = "REQUEST"  # El RECEIVER solicita: registra GTQ, espera confirmación del SENDER
+
+
 class TransactionStatus(str, enum.Enum):
     PENDING = "PENDING"
     COMPLETED = "COMPLETED"
@@ -49,12 +54,18 @@ class Transaction(Base):
     __tablename__ = "transactions"
 
     id = Column(Integer, primary_key=True, index=True)
+    transaction_type = Column(Enum(TransactionType), nullable=False)
     sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    # Precisión monetaria: 18 dígitos, 2 decimales
-    amount_usd = Column(Numeric(precision=18, scale=2), nullable=False)
-    amount_gtq = Column(Numeric(precision=18, scale=2), nullable=False)
-    exchange_rate = Column(Numeric(precision=10, scale=6), nullable=False)
+
+    # ── Campos monetarios ──────────────────────────────────────────────────
+    # En PENDING solo uno de los dos montos está presente.
+    # Al confirmar se completan AMBOS y se guarda el exchange_rate de forma
+    # inmutable: nunca se recalcula ni se acepta del cliente.
+    amount_usd = Column(Numeric(precision=18, scale=2), nullable=True)
+    amount_gtq = Column(Numeric(precision=18, scale=2), nullable=True)
+    exchange_rate = Column(Numeric(precision=10, scale=6), nullable=True)
+
     status = Column(
         Enum(TransactionStatus),
         nullable=False,
