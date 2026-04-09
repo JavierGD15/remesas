@@ -13,6 +13,7 @@ app = FastAPI(
     description="API de remesas internacionales — Don Alex",
     version="0.1.0",
     root_path="/api",
+    redirect_slashes=False,
     # En producción (APP_ENV != development) se deshabilita la documentación pública
     docs_url="/docs" if settings.DEBUG else None,
     redoc_url="/redoc" if settings.DEBUG else None,

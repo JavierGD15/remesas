@@ -215,7 +215,7 @@ async def confirm_transaction(
 # ── GET /transactions ─────────────────────────────────────────────────────────
 
 @router.get(
-    "/",
+    "",
     response_model=schemas.Page[schemas.TransactionRead],
     summary="Listar transacciones con paginación",
     description=(
