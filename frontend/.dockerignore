@@ -1,0 +1,9 @@
+# Zero Trust: nunca incluir secretos en la imagen Docker
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+.cache/
+.git/
+.gitignore
