@@ -46,7 +46,7 @@ export default function Navbar() {
                 </span>
               </div>
               <div className="hidden sm:block leading-tight">
-                <p className="text-sm font-medium text-gray-900">{user.username}</p>
+                <p className="text-sm font-medium text-gray-900">{user.username}{user?.id != null ? ` - #${user.id}` : ''}</p>
                 <span
                   className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${ROLE_BADGE[user.role]}`}
                 >
