@@ -12,8 +12,9 @@ Sistema fullstack para gestión de remesas entre un remitente en el exterior (SE
 4. [Levantar el proyecto](#levantar-el-proyecto)
 5. [Crear usuarios de prueba](#crear-usuarios-de-prueba)
 6. [Flujo de uso](#flujo-de-uso)
-7. [Estructura del monorepo](#estructura-del-monorepo)
-8. [Preguntas de Reflexión](#preguntas-de-reflexión)
+7. [CI/CD](#cicd)
+8. [Estructura del monorepo](#estructura-del-monorepo)
+9. [Preguntas de Reflexión](#preguntas-de-reflexión)
 
 ---
 
@@ -204,6 +205,41 @@ Respuesta esperada:
    └── amount_gtq = 800.00, motive = "Medicamentos"
    └── El Hijo confirma y el proceso se repite
 ```
+
+---
+
+## CI/CD
+
+El pipeline de despliegue continuo se define en `.github/workflows/deploy.yml` y se activa **únicamente en push a `main`**.
+
+### Flujo
+
+```
+push a main
+    └── GitHub Actions (ubuntu-latest)
+            └── appleboy/ssh-action@v1.0.3
+                    └── VM GCP
+                            ├── cd ~/don-alex-remesas
+                            ├── git pull origin main
+                            └── docker compose -f docker-compose.yml up --build -d
+```
+
+### Secrets requeridos en GitHub
+
+Configurarlos en **Settings > Secrets and variables > Actions** del repositorio:
+
+| Secret | Descripcion |
+|---|---|
+| `GCP_VM_HOST` | IP publica o hostname de la VM en GCP |
+| `GCP_VM_USERNAME` | Usuario SSH de la VM (ej. `ubuntu`) |
+| `GCP_SSH_PRIVATE_KEY` | Clave privada SSH (contenido del archivo `.pem` o `id_rsa`) |
+
+### Prerequisitos en la VM
+
+- Docker y Docker Compose instalados.
+- El repositorio clonado en `~/don-alex-remesas` con `git clone`.
+- Los archivos `.env` de cada servicio presentes en la VM (no se versionan).
+- El usuario SSH con permisos para ejecutar `docker compose`.
 
 ---
 
