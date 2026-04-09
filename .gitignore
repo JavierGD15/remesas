@@ -72,3 +72,7 @@ pnpm-debug.log*
 *.key
 *.cert
 *.p12
+
+
+gcp_deploy_key
+gcp_deploy_key.pub
