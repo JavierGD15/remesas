@@ -39,8 +39,6 @@ services:
       # password percent-encoded. No se construye aquí para evitar
       # que caracteres especiales (@, $) rompan el parsing de la URL.
       - ./backend/.env
-    ports:
-      - "${BACKEND_PORT:-8000}:8000"
     volumes:
       - ./backend:/app
     depends_on:
@@ -58,13 +56,26 @@ services:
     restart: unless-stopped
     env_file:
       - ./frontend/.env
-    ports:
-      - "80:5173"
     volumes:
       - ./frontend:/app
       - /app/node_modules
     depends_on:
       - backend
+    networks:
+      - don_alex_network
+
+  # ── Nginx (Reverse Proxy) ─────────────────────────────────────
+  nginx:
+    image: nginx:alpine
+    container_name: don_alex_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
     networks:
       - don_alex_network
 
