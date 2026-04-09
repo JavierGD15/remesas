@@ -1,10 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import { ToastContainer } from '../components/ui/Toast'
 
-/**
- * Layout principal de la aplicación autenticada.
- * Todas las rutas protegidas se renderizan dentro de este layout.
- */
 export default function AppLayout() {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -12,6 +9,7 @@ export default function AppLayout() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Outlet />
       </main>
+      <ToastContainer />
     </div>
   )
 }
