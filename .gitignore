@@ -10,6 +10,8 @@
 *.local
 *.env
 
+settings.local.json
+
 # ─── Python / FastAPI ─────────────────────────────────────────
 __pycache__/
 *.py[cod]
@@ -42,6 +44,7 @@ dist-ssr/
 .cache/
 .parcel-cache/
 .turbo/
+*.tsbuildinfo
 
 # ─── Docker ───────────────────────────────────────────────────
 # No versionar volúmenes locales de Docker
